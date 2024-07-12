@@ -1,0 +1,68 @@
+--EXEC sp_InsertUpdateDelete_Customer @CustomerId = 5, @Name = null, @MobileNo = null, @Address = null, @Birthdate = null, @EmailId = null, @Query = 4
+
+ALTER Procedure [dbo].[sp_InsertUpdateDelete_Customer]
+(
+	@CustomerId int = null,
+	@Name varchar(50) = null,
+	@MobileNo nvarchar(15) = null,
+	@Address varchar(50) = null,
+	@Birthdate DATETIME = NULL,
+	@EmailId nvarchar(50) = null,
+	@Query int
+)
+AS
+BEGIN
+	If(@Query = 1)
+	Begin
+		INSERT INTO [dbo].[Customer]
+		(
+			Name,
+			MobileNo,
+			Address,
+			Birthdate,
+			EmailID
+		)
+		VALUES
+		(
+			@Name,
+			@MobileNo,
+			@Address,
+			@Birthdate,
+			@EmailId
+		)
+		IF (@@ROWCOUNT > 0)
+        BEGIN
+            SELECT 'Inserted'
+        END
+	End
+
+	If(@Query = 2)
+	Begin
+		UPDATE [dbo].[Customer]
+		SET NAME = @Name,
+            Address = @Address,
+            Mobileno = @Mobileno,
+            Birthdate = @Birthdate,
+            EmailID = @EmailID
+        WHERE Customer.CustomerID = @CustomerID
+        SELECT 'Updated'
+	End
+
+	If(@Query = 3)
+	Begin
+		DELETE FROM [dbo].[Customer]
+		WHERE CustomerID = @CustomerID
+		SELECT 'Deleted'
+	End
+
+	If(@Query = 4)
+	Begin
+		SELECT * FROM [dbo].[Customer]
+	End
+
+	IF (@Query = 5)
+    BEGIN
+        SELECT * FROM Customer
+        WHERE Customer.CustomerID = @CustomerID;
+    END
+END

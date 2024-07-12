@@ -1,0 +1,119 @@
+﻿@model CustomerCrudOperations.Models.Customer
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ShowAllCustomerDetails</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h2 {
+            background-color: cadetblue;
+            color: white;
+            text-align: center;
+            font-style: oblique;
+            padding: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: cadetblue;
+            color: white;
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        .operation-links a {
+            color: white;
+            margin-right: 10px;
+        }
+
+        footer {
+            background-color: cadetblue;
+            text-align: center;
+            color: white;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Customer CRUD Operations</h2>
+        @Html.ActionLink("New Customer", "InsertCustomer", "Customer", null, new { @class = "btn btn-primary" })
+        <br />
+        <br />
+        <table>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Name)</th>
+                <th>@Html.DisplayNameFor(model => model.Address)</th>
+                <th>@Html.DisplayNameFor(model => model.MobileNo)</th>
+                <th>@Html.DisplayNameFor(model => model.Birthdate)</th>
+                <th>@Html.DisplayNameFor(model => model.EmailID)</th>
+                <th>Operation</th>
+            </tr>
+
+            @foreach (var item in Model.ShowallCustomer)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                    <td>@Html.DisplayFor(modelItem => item.MobileNo)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Birthdate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.EmailID)</td>
+                    <td class="operation-links">
+                        @Html.ActionLink("Modify", "Edit", new { id = item.CustomerId }, new { @class = "btn btn-warning" }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.CustomerId }, new { @class = "btn btn-info" }) |
+                        @Html.ActionLink("Remove", "Delete", new { id = item.CustomerId }, new { @class = "btn btn-danger", onclick = "return confirm('Are you sure you want to delete?');" })
+                    </td>
+                </tr>
+            }
+        </table>
+
+        @if (TempData["result1"] != null)
+        {
+            <script>alert("Record Is Inserted Successfully");</script>
+        }
+        @if (TempData["result2"] != null)
+        {
+            <script>alert("Record Is Updated Successfully");</script>
+        }
+        @if (TempData["result3"] != null)
+        {
+            <script>alert("Record Is Deleted Successfully");</script>
+        }
+
+        <br />
+        <br />
+        <footer>
+            <p>© @DateTime.Now.ToLocalTime()</p>
+        </footer>
+    </div>
+</body>
+</html>
